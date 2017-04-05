@@ -1,0 +1,52 @@
+<div class="modal-header">
+    <h3 align="center" class="modal-title">Crop Cover Image</h3>
+</div>
+<div class="modal-body">
+    <div ng-show="imageCropStep == 2">
+        <!-- <image-crop
+           data-height="200" //shape's height
+           data-width="150" //shape's width
+           data-shape="square" //the shape.. square or circle
+           data-step="imageCropStep"//scope variable that will contain the current step of the crop (1. Waiting for source image; 2. Image loaded, waiting for crop; 3. Crop done)
+           src="imgSrc" //scope variable that will be the source image for the crop (may be a Blob or base64 string)
+           data-result-blob="result" //scope variable that will contain the Blob information
+           data-result="resultDataUrl" //scope variable that will contain the image's base64 string representation
+           crop="initCrop" //scope variable that must be set to true when the image is ready to be cropped
+           padding="250" //space, in pixels, rounding the shape
+           max-size="1024" //max of the image, in pixels
+         ></image-crop> -->
+
+        <image-crop
+                data-height="343"
+                data-width="600"
+                data-shape="square"
+                data-step="imageCropStep"
+                src="imgSrc"
+                data-result="result"
+                data-result-blob="resultBlob"
+                crop="initCrop"
+                padding="250"
+                max-size="1024"
+        ></image-crop>
+    </div>
+
+    <div ng-show="imageCropStep == 2">
+        <br/>
+
+    </div>
+
+    <div ng-show="imageCropStep == 3">
+
+        <h2>Image after crop</h2>
+        <img ng-src="{{result}}"/>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-default" ng-hide="cropDone" ng-click="initCrop = true;cropDone = true">Crop</button>
+    <button class="btn btn-success" ng-hide="!cropDone" type="submit"
+            ng-click="cropFile(result)">Save
+    </button>
+    <button class="btn btn-warning" type="button"
+            ng-click="close()">Cancel
+    </button>
+</div>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" data-framework="angularjs">
+<head>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/extra.css">
+    <link rel="stylesheet" href="css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="css/croppie.css">
+    <link rel="stylesheet" href="css/image-crop-styles.css">
+</head>
+<body>
+<div ng-app="fileUpload" ng-controller="MyCtrl as ctrl">
+    <form name="myForm" class="container">
+        <fieldset class="bs-docs-example">
+            <div class="form-group">
+                <label for="bookTitle">Book Title</label>
+                <input type="text" class="form-control" name="title" id="bookTitle" ng-model="ctrl.title" required>
+                <i ng-show="myForm.title.$error.required">*required</i>
+            </div>
+            <div class="form-group">
+                <label for="bookDescription">Book Description</label>
+                <textarea class="form-control" name="description" id="bookDescription" ng-model="ctrl.description"
+                          rows="3" required></textarea>
+                <i ng-show="myForm.description.$error.required">*required</i>
+            </div>
+            <div class="form-group">
+                <label for="bookLanguage">Book Language</label>
+                <select name="language" class="form-control" id="bookLanguage" ng-model="ctrl.tag[0]" required>
+                    <option selected disabled value="">Please select</option>
+                    <option>Hindi</option>
+                    <option>Urdu</option>
+                    <option>English</option>
+                </select>
+                <i ng-show="myForm.language.$error.required">*required</i>
+            </div>
+            <div class="form-group">
+                <label for="bookType">Book Type</label>
+                <select name="type" class="form-control" id="bookType" ng-model="ctrl.tag[1]" required>
+                    <option selected disabled value="">Please select</option>
+                    <option>Hadees</option>
+                    <option>Nauhye</option>
+                    <option>Majlis</option>
+                </select>
+                <i ng-show="myForm.type.$error.required">*required</i>
+            </div>
+            <div class="row">
+                <div class="col-lg-2">
+                    <div class="form-group">
+                        <label for="bookCover">Book Cover</label>
+                        <input type="file" ng-change="ctrl.imgCrop(picFile)" class="form-control-file" id="bookCover"
+                               ngf-select ng-model="picFile" name="picfile"
+                               accept="image/*" ngf-max-size="2MB" required
+                               ngf-model-invalid="errorFile">
+                        <i ng-show="myForm.picfile.$error.required">*required</i><br>
+                        <i ng-show="myForm.picfile.$error.maxSize">File too large
+                            {{errorFile.size / 1000000|number:1}}MB: max 2M</i>
+                    </div>
+                    <div class="form-group">
+                        <label for="bookPdf">Book Pdf File</label>
+                        <input type="file" class="form-control-file" id="bookPdf" ngf-select ng-model="pdfFile"
+                               name="pdffile"
+                               accept="application/pdf" required>
+                        <i ng-show="myForm.pdffile.$error.required">*required</i>
+                    </div>
+                    <button type="submit" class="btn btn-primary" ng-disabled="!myForm.$valid"
+                            ng-click="ctrl.uploadFiles(pdfFile)">Submit
+                    </button>
+                </div>
+                <div class="col-lg-2">
+                    <img ng-show="croppedImg" ngf-thumbnail="croppedImg" class="thumb"><br/>
+                    <button ng-click="croppedImg = null; picFile = null" ng-show="croppedImg" class="btn btn-danger btn-xs">Remove</button>
+                </div>
+            </div>
+            &nbsp;
+            <span class="progress" ng-show="pdfFile.progress >= 0">
+        <div style="width:{{pdfFile.progress}}%"
+             ng-bind="pdfFile.progress + '%'"></div>
+      </span>
+            <span ng-show="pdfFile.result">Ebook Upload Successful</span>
+            <span class="err" ng-show="errorMsg">{{errorMsg}}</span>
+        </fieldset>
+        <br>
+    </form>
+</div>
+<script src="js/jquery.min.js"></script>
+<script src="js/angular.js"></script>
+<script src="js/controllers/upload_ebooks.js"></script>
+<script src="js/ng-file-upload.js"></script>
+<script src="js/ng-file-upload-shim.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/ui-bootstrap-tpls-2.5.0.js"></script>
+<script src="js/croppie.js"></script>
+<script src="js/image-crop.js"></script>
+</body>
+</html>

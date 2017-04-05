@@ -1,0 +1,71 @@
+<div class="modal-header">
+    <h3 align="center" class="modal-title">Update Ebook</h3>
+</div>
+<div class="modal-body">
+    <form name="myForm" class="container">
+        <fieldset class="bs-docs-example">
+            <div class="form-group">
+                <label for="bookTitle">Book Title</label>
+                <input type="text" class="form-control" name="title" id="bookTitle" ng-model="book.title" required>
+                <i ng-show="myForm.title.$error.required">*required</i>
+            </div>
+            <div class="form-group">
+                <label for="bookDescription">Book Description</label>
+                <textarea class="form-control" name="description" id="bookDescription" ng-model="book.description"
+                          rows="3" required></textarea>
+                <i ng-show="myForm.description.$error.required">*required</i>
+            </div>
+            <div class="form-group">
+                <label for="bookLanguage">Book Language</label>
+                <select name="language" class="form-control" id="bookLanguage" ng-model="book.tag[0]" required>
+                    <option>Hindi</option>
+                    <option>Urdu</option>
+                    <option>English</option>
+                </select>
+                <i ng-show="myForm.language.$error.required">*required</i>
+            </div>
+            <div class="form-group">
+                <label for="bookType">Book Type</label>
+                <select name="type" class="form-control" id="bookType" ng-model="book.tag[1]" required>
+                    <option>Hadees</option>
+                    <option>Nauhye</option>
+                    <option>Majlis</option>
+                </select>
+                <i ng-show="myForm.type.$error.required">*required</i>
+            </div>
+            <div class="form-group">
+                <label for="bookCover">Book Cover</label>
+                <input type="file" class="form-control-file" id="bookCover" ngf-select ng-model="picFile" name="picfile"
+                       accept="image/*" ngf-max-size="2MB" required
+                       ngf-model-invalid="errorFile">
+                <i ng-show="myForm.picfile.$error.required">*required</i><br>
+                <i ng-show="myForm.picfile.$error.maxSize">File too large
+                    {{errorFile.size / 1000000|number:1}}MB: max 2M</i>
+                <img ng-show="myForm.picfile.$valid" ngf-thumbnail="picFile" class="thumb">
+                <button ng-click="picFile = null" ng-show="picFile">Remove</button>
+            </div>
+            <div class="form-group">
+                <label for="bookPdf">Book Pdf File</label>
+                <input type="file" class="form-control-file" id="bookPdf" ngf-select ng-model="pdfFile" name="pdffile"
+                       accept="application/pdf" required>
+                <i ng-show="myForm.pdffile.$error.required">*required</i>
+            </div>
+            <!--<button type="submit" class="btn btn-primary" ng-disabled="!myForm.$valid"-->
+                    <!--ng-click="ctrl.uploadFiles(picFile,pdfFile)">Submit-->
+            <!--</button>-->
+            &nbsp;
+            <span class="progress" ng-show="picFile.progress >= 0">
+        <div style="width:{{picFile.progress}}%"
+             ng-bind="picFile.progress + '%'"></div>
+      </span>
+            <span ng-show="picFile.result">Ebook Upload Successful</span>
+            <span class="err" ng-show="errorMsg">{{errorMsg}}</span>
+        </fieldset>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-success" type="submit" ng-disabled="!myForm.$valid"
+            ng-click="ctrl.uploadFiles(picFile,pdfFile)">Update</button>
+    <button class="btn btn-warning" type="button"
+            ng-click="close()">Cancel</button>
+</div>
